@@ -171,7 +171,7 @@ func UpdateCategory(id int64, category models.Category) int64 {
 	db := middleware.CreateConnection()
 	defer db.Close()
 
-	sqlStatement := `UPDATE category SET name_category=$2 WHERE master_id=$1 RETURNING id`
+	sqlStatement := `UPDATE category SET name_category=$2 WHERE master_id=$1 RETURNING category.id`
 	res, err := db.Exec(sqlStatement, id, category.NameCategory)
 	if err != nil {
 		helper.Panic(err)
@@ -181,9 +181,14 @@ func UpdateCategory(id int64, category models.Category) int64 {
 	if err != nil {
 		helper.Panic(err)
 	}
-	fmt.Sprintf("Rows affected: %v", rowsAffected)
 
-	return id
+	var categoryId int64
+	err = db.QueryRow("SELECT id FROM category WHERE master_id = $1", id).Scan(&categoryId)
+	if err != nil {
+		helper.Panic(err)
+	}
+	fmt.Sprintf("Rows affected: %v", rowsAffected)
+	return categoryId
 }
 
 func UpdateBahan(id int64, bahan models.Bahan) int64 {
