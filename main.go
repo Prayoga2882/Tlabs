@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"go-postgres-stocks/router"
+	"go-postgres-menu/router"
 	"log"
 	"net/http"
 )

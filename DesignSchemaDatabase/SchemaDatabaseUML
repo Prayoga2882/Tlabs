@@ -1,0 +1,26 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class bahan {
+   master_id: bigint
+   category_id: bigint
+   name_bahan: varchar(100)
+   id: bigint
+}
+class category {
+   master_id: bigint
+   name_category: varchar(100)
+   id: bigint
+}
+class master {
+   name: varchar(100)
+   id: bigint
+}
+
+bahan     -[#595959,plain]-^  category : "category_id:id"
+bahan     -[#595959,plain]-^  master   : "master_id:id"
+category  -[#595959,plain]-^  master   : "master_id:id"
+@enduml
