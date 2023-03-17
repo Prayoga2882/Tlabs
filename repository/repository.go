@@ -3,8 +3,8 @@ package repository
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
-	"github.com/jackc/pgx/v4"
 	"go-postgres-menu/helper"
 	"go-postgres-menu/middleware"
 	"go-postgres-menu/models"
@@ -13,7 +13,7 @@ import (
 
 func Insert(master models.Master) int64 {
 	db := middleware.CreateConnection()
-	defer db.Close()
+	defer middleware.CloseConnection(db)
 
 	sqlStatement := `INSERT INTO master (name) VALUES ($1) RETURNING id`
 	var id int64
@@ -27,7 +27,7 @@ func Insert(master models.Master) int64 {
 
 func InsertCategory(category models.Category) int64 {
 	db := middleware.CreateConnection()
-	defer db.Close()
+	defer middleware.CloseConnection(db)
 
 	sqlStatement := `INSERT INTO category (master_id, name_category) VALUES ($1, $2) RETURNING id`
 	var id int64
@@ -41,7 +41,7 @@ func InsertCategory(category models.Category) int64 {
 
 func InsertBahan(bahan models.Bahan) {
 	db := middleware.CreateConnection()
-	defer db.Close()
+	defer middleware.CloseConnection(db)
 
 	_, err := db.Exec("INSERT INTO bahan (master_id, category_id, name_bahan) VALUES ($1, $2, $3)", bahan.MasterId, bahan.CategoryId, bahan.NameBahan)
 	if err != nil {
@@ -51,7 +51,7 @@ func InsertBahan(bahan models.Bahan) {
 
 func GetMenu(id int64) (models.ResponseResult, error) {
 	db := middleware.CreateConnection()
-	defer db.Close()
+	defer middleware.CloseConnection(db)
 
 	stmt := `SELECT m.name, c.name_category, json_agg(b.name_bahan) AS bahan
 			 FROM master m
@@ -100,11 +100,11 @@ func GetMenu(id int64) (models.ResponseResult, error) {
 }
 
 func GetAllMenu(name string) ([]models.ResponseResult, error) {
-	conn, err := pgx.Connect(context.Background(), "postgres://postgres:postgres@localhost:5433/postgres?sslmode=disable")
+	conn, err := middleware.CreateConnectionPgx()
 	if err != nil {
 		helper.Panic(err)
 	}
-	defer conn.Close(context.Background())
+	defer middleware.CloseConnectionPgx(conn)
 
 	query := `
         SELECT m.name, c.name_category, json_agg(b.name_bahan) AS bahan
@@ -150,7 +150,7 @@ func GetAllMenu(name string) ([]models.ResponseResult, error) {
 
 func UpdateMenu(id int64, menu models.Master) int64 {
 	db := middleware.CreateConnection()
-	defer db.Close()
+	defer middleware.CloseConnection(db)
 
 	sqlStatement := `UPDATE master SET name=$2 WHERE id=$1 RETURNING id`
 	res, err := db.Exec(sqlStatement, id, menu.Name)
@@ -169,7 +169,7 @@ func UpdateMenu(id int64, menu models.Master) int64 {
 
 func UpdateCategory(id int64, category models.Category) int64 {
 	db := middleware.CreateConnection()
-	defer db.Close()
+	defer middleware.CloseConnection(db)
 
 	sqlStatement := `UPDATE category SET name_category=$2 WHERE master_id=$1 RETURNING category.id`
 	res, err := db.Exec(sqlStatement, id, category.NameCategory)
@@ -193,7 +193,7 @@ func UpdateCategory(id int64, category models.Category) int64 {
 
 func UpdateBahan(id int64, bahan models.Bahan) int64 {
 	db := middleware.CreateConnection()
-	defer db.Close()
+	defer middleware.CloseConnection(db)
 
 	sqlStatement := `UPDATE bahan SET name_bahan=$2 WHERE master_id=$1`
 	res, err := db.Exec(sqlStatement, id, bahan.NameBahan)
@@ -211,11 +211,11 @@ func UpdateBahan(id int64, bahan models.Bahan) int64 {
 }
 
 func DeleteBahanByMasterID(masterID int64) error {
-	conn, err := pgx.Connect(context.Background(), "postgres://postgres:postgres@localhost:5433/postgres?sslmode=disable")
+	conn, err := middleware.CreateConnectionPgx()
 	if err != nil {
 		helper.Panic(err)
 	}
-	defer conn.Close(context.Background())
+	defer middleware.CloseConnectionPgx(conn)
 
 	_, err = conn.Exec(context.Background(), `DELETE FROM bahan WHERE master_id = $1`, masterID)
 	if err != nil {
@@ -227,11 +227,11 @@ func DeleteBahanByMasterID(masterID int64) error {
 }
 
 func CreateBahan(request models.Bahan) error {
-	conn, err := pgx.Connect(context.Background(), "postgres://postgres:postgres@localhost:5433/postgres?sslmode=disable")
+	conn, err := middleware.CreateConnectionPgx()
 	if err != nil {
 		helper.Panic(err)
 	}
-	defer conn.Close(context.Background())
+	defer middleware.CloseConnectionPgx(conn)
 
 	_, err = conn.Exec(context.Background(), `INSERT INTO bahan (name_bahan, category_id, master_id)VALUES ($1, $2, $3)`, request.NameBahan, request.CategoryId, request.MasterId)
 	if err != nil {
@@ -244,7 +244,7 @@ func CreateBahan(request models.Bahan) error {
 
 func DeleteMenu(id int64) error {
 	db := middleware.CreateConnection()
-	defer db.Close()
+	defer middleware.CloseConnection(db)
 
 	sqlStatement := `DELETE FROM master WHERE id=$1`
 	res, err := db.Exec(sqlStatement, id)
@@ -263,7 +263,7 @@ func DeleteMenu(id int64) error {
 
 func DeleteCategory(id int64) error {
 	db := middleware.CreateConnection()
-	defer db.Close()
+	defer middleware.CloseConnection(db)
 
 	sqlStatement := `DELETE FROM category WHERE master_id=$1`
 	res, err := db.Exec(sqlStatement, id)
@@ -282,7 +282,7 @@ func DeleteCategory(id int64) error {
 
 func DeleteBahan(id int64) error {
 	db := middleware.CreateConnection()
-	defer db.Close()
+	defer middleware.CloseConnection(db)
 
 	sqlStatement := `DELETE FROM bahan WHERE master_id=$1`
 	res, err := db.Exec(sqlStatement, id)
@@ -297,4 +297,23 @@ func DeleteBahan(id int64) error {
 	fmt.Sprintf("Rows affected: %v", rowsAffected)
 
 	return err
+}
+
+func CheckMenu(id int64) (models.Master, error) {
+	db := middleware.CreateConnection()
+	defer middleware.CloseConnection(db)
+
+	sqlStatement := `SELECT id, name FROM master WHERE id=$1`
+	rows, err := db.QueryContext(context.Background(), sqlStatement, id)
+	helper.Panic(err)
+	defer rows.Close()
+
+	master := models.Master{}
+	if rows.Next() {
+		err := rows.Scan(&master.Id, &master.Name)
+		helper.Panic(err)
+		return master, nil
+	} else {
+		return master, errors.New("menu is not found")
+	}
 }

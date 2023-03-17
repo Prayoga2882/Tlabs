@@ -39,6 +39,8 @@ func GetAll(name string) []models.ResponseResult {
 }
 
 func GetMenu(id int64) (models.ResponseResult, error) {
+	_, err := repository.CheckMenu(id)
+	helper.Panic(err)
 	master, err := repository.GetMenu(id)
 	if err != nil {
 		panic(err)
