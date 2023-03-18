@@ -159,6 +159,21 @@ func TestDeleteBahan(t *testing.T) {
 	}
 }
 
+func TestCheckMenu(t *testing.T) {
+	db, mock, err := sqlmock.New()
+	helper.Panic(err)
+	defer middleware.CloseConnection(db)
+
+	rows := sqlmock.NewRows([]string{"id", "name"}).AddRow(1, "menu1")
+	mock.ExpectQuery(`SELECT id, name FROM master WHERE id=$1`).WithArgs(1).WillReturnRows(rows)
+
+	master, err := repository.CheckMenu(1)
+	helper.Panic(err)
+
+	assert.Equal(t, int64(1), master.Id)
+	assert.Equal(t, "menu1", master.Name)
+}
+
 func TestRandomInt(t *testing.T) {
 	result := helper.RandomInt()
 	fmt.Println(result)

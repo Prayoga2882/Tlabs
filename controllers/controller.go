@@ -33,15 +33,24 @@ func GetMenu(w http.ResponseWriter, r *http.Request) {
 
 	master, err := services.GetMenu(int64(id))
 	if err != nil {
-		log.Fatalf("Unable to get master. %v", err)
-	}
-	res := models.Response{
-		Status:  200,
-		Message: "successfully",
-		Data:    master,
-	}
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusNotFound)
 
-	helper.WriteToResponseBody(w, res)
+		webResponse := models.Response{
+			Status:  http.StatusNotFound,
+			Message: "NOT FOUND",
+			Data:    err.Error(),
+		}
+
+		helper.WriteToResponseBody(w, webResponse)
+	} else {
+		res := models.Response{
+			Status:  200,
+			Message: "successfully",
+			Data:    master,
+		}
+		helper.WriteToResponseBody(w, res)
+	}
 }
 
 func GetAllMenu(w http.ResponseWriter, r *http.Request) {
@@ -66,17 +75,26 @@ func UpdateMenu(w http.ResponseWriter, r *http.Request) {
 	helper.ReadFromRequestBody(r, &menuRequest)
 	_, err = services.UpdateMenu(int64(id), menuRequest)
 	if err != nil {
-		helper.Panic(err)
-	}
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusNotFound)
 
-	res := models.Response{
-		ID:      int64(id),
-		Status:  200,
-		Message: "Menu updated successfully",
-		Data:    nil,
-	}
+		webResponse := models.Response{
+			Status:  http.StatusNotFound,
+			Message: "NOT FOUND",
+			Data:    err.Error(),
+		}
 
-	helper.WriteToResponseBody(w, res)
+		helper.WriteToResponseBody(w, webResponse)
+	} else {
+		res := models.Response{
+			ID:      int64(id),
+			Status:  200,
+			Message: "Menu updated successfully",
+			Data:    nil,
+		}
+
+		helper.WriteToResponseBody(w, res)
+	}
 }
 
 func DeleteMenu(w http.ResponseWriter, r *http.Request) {
@@ -85,16 +103,26 @@ func DeleteMenu(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalf("Unable to convert the string into int. %v", err)
 	}
-	err = services.DeleteMenu(int64(id))
+	_, err = services.DeleteMenu(int64(id))
 	if err != nil {
-		helper.Panic(err)
-	}
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusNotFound)
 
-	res := models.Response{
-		Status:  200,
-		Message: "Menu deleted successfully",
-		Data:    nil,
-	}
+		webResponse := models.Response{
+			Status:  http.StatusNotFound,
+			Message: "NOT FOUND",
+			Data:    err.Error(),
+		}
 
-	helper.WriteToResponseBody(w, res)
+		helper.WriteToResponseBody(w, webResponse)
+	} else {
+		res := models.Response{
+			ID:      int64(id),
+			Status:  200,
+			Message: "Menu deleted successfully",
+			Data:    nil,
+		}
+
+		helper.WriteToResponseBody(w, res)
+	}
 }

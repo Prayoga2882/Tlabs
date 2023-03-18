@@ -40,7 +40,9 @@ func GetAll(name string) []models.ResponseResult {
 
 func GetMenu(id int64) (models.ResponseResult, error) {
 	_, err := repository.CheckMenu(id)
-	helper.Panic(err)
+	if err != nil {
+		return models.ResponseResult{}, err
+	}
 	master, err := repository.GetMenu(id)
 	if err != nil {
 		panic(err)
@@ -49,9 +51,9 @@ func GetMenu(id int64) (models.ResponseResult, error) {
 }
 
 func UpdateMenu(id int64, request models.Request) (models.ResponseResult, error) {
-	menu, err := repository.GetMenu(id)
+	_, err := repository.CheckMenu(id)
 	if err != nil {
-		helper.Panic(err)
+		return models.ResponseResult{}, err
 	}
 
 	master := models.Master{
@@ -83,12 +85,19 @@ func UpdateMenu(id int64, request models.Request) (models.ResponseResult, error)
 			}
 		}
 	}
+	menu, err := repository.GetMenu(id)
+	helper.Panic(err)
 
 	return menu, err
 }
 
-func DeleteMenu(id int64) error {
-	err := repository.DeleteBahan(id)
+func DeleteMenu(id int64) (models.ResponseResult, error) {
+	_, err := repository.CheckMenu(id)
+	if err != nil {
+		return models.ResponseResult{}, err
+	}
+
+	err = repository.DeleteBahan(id)
 	if err != nil {
 		helper.Panic(err)
 	}
@@ -103,5 +112,8 @@ func DeleteMenu(id int64) error {
 		helper.Panic(err)
 	}
 
-	return err
+	menu, err := repository.GetMenu(id)
+	helper.Panic(err)
+
+	return menu, err
 }
