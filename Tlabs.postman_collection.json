@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\" : \"Gulai ayam\",\n    \"name_category\" : \"Deluxe menu\",\n    \"name_bahan\" : [\"jeruk nipis \", \"santan\"]\n}",
+					"raw": "{\n    \"name\" : \"usus\",\n    \"name_category\" : \"Angkringan\",\n    \"name_bahan\" : [\"jeroan\"]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -32,7 +32,54 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Sucessfully Create",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\" : \"usus\",\n    \"name_category\" : \"Angkringan\",\n    \"name_bahan\" : [\"jeroan\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/menu",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"menu"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 17 Mar 2023 18:02:26 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "129"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": 200,\n    \"message\": \"Menu created successfully\",\n    \"data\": {\n        \"name\": \"usus\",\n        \"name_category\": \"Angkringan\",\n        \"name_bahan\": [\n            \"jeroan\"\n        ]\n    }\n}"
+				}
+			]
 		},
 		{
 			"name": "Get All",
@@ -58,7 +105,52 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Successfully Get All",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/menu",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"menu"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "Nasi",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 17 Mar 2023 18:02:31 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "708"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": 200,\n    \"message\": \"successfully\",\n    \"data\": [\n        {\n            \"name\": \"Rendang paha ayam organik\",\n            \"name_category\": \"second menu\",\n            \"name_bahan\": [\n                \"paha ayam\",\n                \"kentang\",\n                \"telur\",\n                \"kunyit\",\n                \"daun jeruk\",\n                \"daun salam\"\n            ]\n        },\n        {\n            \"name\": \"opor ayam\",\n            \"name_category\": \"third menu\",\n            \"name_bahan\": [\n                \"buah\"\n            ]\n        },\n        {\n            \"name\": \"Dendeng sapi\",\n            \"name_category\": \"Tomhawk menu\",\n            \"name_bahan\": [\n                \"garam\",\n                \"minyak ikan\"\n            ]\n        },\n        {\n            \"name\": \"nasi goreng\",\n            \"name_category\": \"menu utama\",\n            \"name_bahan\": [\n                \"Nasi\",\n                \"Bawang putih\",\n                \"Saus\"\n            ]\n        },\n        {\n            \"name\": \"usus\",\n            \"name_category\": \"Angkringan\",\n            \"name_bahan\": [\n                \"jeroan\"\n            ]\n        },\n        {\n            \"name\": \"Kwetiau\",\n            \"name_category\": \"lasagna\",\n            \"name_bahan\": [\n                \"daun salam\",\n                \"kentang\",\n                \"telur\"\n            ]\n        },\n        {\n            \"name\": \"Gulai Ayam\",\n            \"name_category\": \"special menu\",\n            \"name_bahan\": [\n                \"ayam\",\n                \"telur\",\n                \"garuda\"\n            ]\n        }\n    ]\n}"
+				}
+			]
 		},
 		{
 			"name": "Get Detail",
@@ -79,12 +171,101 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "20"
+							"value": "69"
 						}
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Not Found Get Detail",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/menu/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"menu",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "69"
+								}
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 18 Mar 2023 02:21:59 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "64"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": 404,\n    \"message\": \"NOT FOUND\",\n    \"data\": \"menu is not found\"\n}"
+				},
+				{
+					"name": "Successfully Get Detail",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/menu/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"menu",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "64"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 18 Mar 2023 02:23:35 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "143"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": 200,\n    \"message\": \"successfully\",\n    \"data\": {\n        \"name\": \"nasi goreng\",\n        \"name_category\": \"menu utama\",\n        \"name_bahan\": [\n            \"Nasi\",\n            \"Bawang putih\",\n            \"Saus\"\n        ]\n    }\n}"
+				}
+			]
 		},
 		{
 			"name": "Update",
@@ -93,7 +274,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\" : \"Gulai Ayam\",\n    \"name_category\" : \"luxury menu\",\n    \"name_bahan\" : [\"sayur\", \"kedelai\"]\n}",
+					"raw": "{\n    \"name\" : \"Gulai Ayam\",\n    \"name_category\" : \"special menu\",\n    \"name_bahan\" : [\"ayam\", \"telur\", \"garuda\"]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -119,7 +300,114 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Successfully Update",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\" : \"Pindang\",\n    \"name_category\" : \"Kuah menu\",\n    \"name_bahan\" : [\"ikan\", \"telur\", \"sayur\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/menu/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"menu",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "69"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 18 Mar 2023 02:04:16 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "61"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 69,\n    \"status\": 200,\n    \"message\": \"Menu updated successfully\"\n}"
+				},
+				{
+					"name": "Not Found Update",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\" : \"Pindang\",\n    \"name_category\" : \"Kuah menu\",\n    \"name_bahan\" : [\"ikan\", \"telur\", \"sayur\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/menu/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"menu",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "691"
+								}
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 18 Mar 2023 02:23:00 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "64"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": 404,\n    \"message\": \"NOT FOUND\",\n    \"data\": \"menu is not found\"\n}"
+				}
+			]
 		},
 		{
 			"name": "Delete",
@@ -149,12 +437,119 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "20"
+							"value": "69"
 						}
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Successfully Delete",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\" : \"bakso\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/menu/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"menu",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "69"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 18 Mar 2023 02:07:20 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "61"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 69,\n    \"status\": 200,\n    \"message\": \"Menu deleted successfully\"\n}"
+				},
+				{
+					"name": "Not Found Delete",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\" : \"bakso\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/menu/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"menu",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "661"
+								}
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 18 Mar 2023 02:22:34 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "64"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": 404,\n    \"message\": \"NOT FOUND\",\n    \"data\": \"menu is not found\"\n}"
+				}
+			]
 		}
 	]
 }
