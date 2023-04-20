@@ -1,0 +1,9 @@
+{
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/router(.*)",
+      "destination": "/router/router.go"
+    }
+  ]
+}
