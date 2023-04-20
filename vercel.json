@@ -2,8 +2,8 @@
   "trailingSlash": false,
   "rewrites": [
     {
-      "source": "/router(.*)",
-      "destination": "/router/router.go"
+      "source": "/api/menu(.*)",
+      "destination": "/main.go"
     }
   ]
 }
