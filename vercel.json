@@ -1,16 +1,15 @@
 {
-  "env": {
-    "DATABASE_URL": "postgres://postgres:secret@localhost/postgres"
-  },
-  "build": {
-    "env": {
-      "GO111MODULE": "on"
+  "version": 2,
+  "builds": [
+    {
+        "src": "main.go",
+        "use": "@now/go"
     }
-  },
+  ],
   "routes": [
     {
       "src": "/.*",
-      "dest": "main.go"
+      "dest": "/main.go"
     }
   ]
 }
