@@ -1,9 +1,15 @@
 {
-  "trailingSlash": false,
-  "rewrites": [
-    {
-      "source": "/api/menu(.*)",
-      "destination": "/main.go"
-    }
-  ]
+  "version": 2,
+  "builds": [
+    { "src": "/main.go", "use": "@vercel/go" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "api/menu/$1" },
+    { "handle": "filesystem" }
+  ],
+  "env": {
+    "DATABASE_URL": "jdbc:postgresql://localhost:5433/postgres"
+  },
+  "alias": "tlabs.vercel.app",
+  "public": true
 }
