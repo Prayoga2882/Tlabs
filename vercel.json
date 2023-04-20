@@ -1,15 +1,16 @@
 {
-  "version": 2,
-  "builds": [
-    { "src": "main.go", "use": "@vercel/go" }
-  ],
-  "routes": [
-    { "src": "/(.*)", "dest": "api/menu/$1" },
-    { "handle": "filesystem" }
-  ],
   "env": {
-    "DATABASE_URL": "jdbc:postgresql://localhost:5433/postgres"
+    "DATABASE_URL": "postgres://postgres:secret@localhost/postgres"
   },
-  "alias": "tlabs.vercel.app",
-  "public": true
+  "build": {
+    "env": {
+      "GO111MODULE": "on"
+    }
+  },
+  "routes": [
+    {
+      "src": "/.*",
+      "dest": "main.go"
+    }
+  ]
 }
