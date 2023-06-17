@@ -1,6 +1,6 @@
 module Tlabs
 
-go 1.19
+go 1.18
 
 require (
 	github.com/DATA-DOG/go-sqlmock v1.5.0
