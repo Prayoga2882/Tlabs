@@ -1,10 +1,10 @@
 package controllers
 
 import (
+	"Tlabs/helper"
+	"Tlabs/models"
+	"Tlabs/services"
 	"github.com/gorilla/mux"
-	"go-postgres-menu/helper"
-	"go-postgres-menu/models"
-	"go-postgres-menu/services"
 	"log"
 	"net/http"
 	"strconv"

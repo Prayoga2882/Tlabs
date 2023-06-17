@@ -1,9 +1,9 @@
 package services
 
 import (
-	"go-postgres-menu/helper"
-	"go-postgres-menu/models"
-	"go-postgres-menu/repository"
+	"Tlabs/helper"
+	"Tlabs/models"
+	"Tlabs/repository"
 )
 
 func Create(request models.Request) models.Master {

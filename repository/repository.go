@@ -1,13 +1,13 @@
 package repository
 
 import (
+	"Tlabs/helper"
+	"Tlabs/middleware"
+	"Tlabs/models"
 	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
-	"go-postgres-menu/helper"
-	"go-postgres-menu/middleware"
-	"go-postgres-menu/models"
 	"log"
 )
 

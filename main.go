@@ -1,7 +1,7 @@
 package main
 
 import (
-	"go-postgres-menu/router"
+	"Tlabs/router"
 	"log"
 	"net/http"
 	"os"

@@ -1,8 +1,8 @@
 package router
 
 import (
+	"Tlabs/controllers"
 	"github.com/gorilla/mux"
-	"go-postgres-menu/controllers"
 )
 
 func Router() *mux.Router {

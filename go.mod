@@ -1,14 +1,14 @@
-module go-postgres-menu
+module Tlabs
 
-go 1.18
+go 1.19
 
 require (
 	github.com/DATA-DOG/go-sqlmock v1.5.0
 	github.com/gorilla/mux v1.8.0
 	github.com/jackc/pgx/v4 v4.18.1
-	github.com/joho/godotenv v1.4.0
-	github.com/lib/pq v1.10.6
-	github.com/stretchr/testify v1.8.1
+	github.com/joho/godotenv v1.5.1
+	github.com/lib/pq v1.10.9
+	github.com/stretchr/testify v1.8.4
 )
 
 require (
