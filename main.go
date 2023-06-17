@@ -1,15 +1,22 @@
 package main
 
 import (
-	"fmt"
 	"go-postgres-menu/router"
 	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
-	r := router.Router()
-	fmt.Println("Starting server on 0.0.0.0:8080")
+	handler := router.Router()
+	var port = envPortOr("3000")
+	log.Println("Starting server on port " + "0.0.0.0" + port)
+	log.Fatal(http.ListenAndServe(port, handler))
+}
 
-	log.Fatal(http.ListenAndServe("0.0.0.0:8080", r))
+func envPortOr(port string) string {
+	if envPort := os.Getenv("PORT"); envPort != "" {
+		return ":" + envPort
+	}
+	return ":" + port
 }
