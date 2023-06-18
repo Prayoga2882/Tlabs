@@ -1,9 +1,9 @@
 package services
 
 import (
-	"Tlabs/helper"
-	"Tlabs/models"
-	"Tlabs/repository"
+	"main/helper"
+	"main/models"
+	"main/repository"
 )
 
 func Create(request models.Request) models.Master {

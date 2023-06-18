@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/stretchr/testify/assert"
-	"go-postgres-menu/helper"
-	"go-postgres-menu/middleware"
-	"go-postgres-menu/models"
-	"go-postgres-menu/repository"
+	"main/helper"
+	"main/middleware"
+	"main/models"
+	"main/repository"
 	"testing"
 )
 

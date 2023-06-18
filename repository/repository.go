@@ -1,14 +1,14 @@
 package repository
 
 import (
-	"Tlabs/helper"
-	"Tlabs/middleware"
-	"Tlabs/models"
 	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"log"
+	"main/helper"
+	"main/middleware"
+	"main/models"
 )
 
 func Insert(master models.Master) int64 {

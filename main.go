@@ -1,8 +1,8 @@
 package main
 
 import (
-	"Tlabs/router"
 	"log"
+	"main/router"
 	"net/http"
 	"os"
 )

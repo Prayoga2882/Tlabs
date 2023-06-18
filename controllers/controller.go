@@ -1,11 +1,11 @@
 package controllers
 
 import (
-	"Tlabs/helper"
-	"Tlabs/models"
-	"Tlabs/services"
 	"github.com/gorilla/mux"
 	"log"
+	"main/helper"
+	"main/models"
+	"main/services"
 	"net/http"
 	"strconv"
 )

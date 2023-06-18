@@ -1,8 +1,8 @@
 package router
 
 import (
-	"Tlabs/controllers"
 	"github.com/gorilla/mux"
+	"main/controllers"
 )
 
 func Router() *mux.Router {

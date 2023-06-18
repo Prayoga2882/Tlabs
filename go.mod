@@ -1,4 +1,4 @@
-module Tlabs
+module main
 
 go 1.19
 
