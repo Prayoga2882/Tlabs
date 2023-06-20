@@ -6,6 +6,17 @@ import (
 	"main/repository"
 )
 
+func SignUp(request models.UserRequest) {
+	user := models.User{
+		Username: request.Username,
+		Password: request.Password,
+	}
+	_, err := repository.InsertUser(user)
+	if err != nil {
+		helper.Panic(err)
+	}
+}
+
 func Create(request models.Request) models.Master {
 	master := models.Master{
 		Name: request.Name,

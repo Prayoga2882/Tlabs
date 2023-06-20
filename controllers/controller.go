@@ -1,14 +1,59 @@
 package controllers
 
 import (
+	"encoding/json"
 	"github.com/gorilla/mux"
 	"log"
 	"main/helper"
 	"main/models"
+	"main/repository"
 	"main/services"
 	"net/http"
 	"strconv"
 )
+
+func SignUp(w http.ResponseWriter, r *http.Request) {
+	request := models.UserRequest{}
+	helper.ReadFromRequestBody(r, &request)
+
+	services.SignUp(request)
+
+	res := models.Response{
+		Status:  200,
+		Message: "User created successfully",
+	}
+	helper.WriteToResponseBody(w, res)
+}
+
+func SignIn(w http.ResponseWriter, r *http.Request) {
+	request := models.UserRequest{}
+	helper.ReadFromRequestBody(r, &request)
+
+	valid, err := repository.CheckUser(request.Username, request.Password)
+	if err != nil {
+		response := map[string]string{
+			"status":  "error",
+			"message": "An error occurred or username and password is incorrect",
+		}
+		jsonResponse, _ := json.Marshal(response)
+
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusUnauthorized)
+		_, err := w.Write(jsonResponse)
+		if err != nil {
+			return
+		}
+		return
+	}
+
+	res := models.Response{
+		Status:  200,
+		Message: "User logged in successfully",
+		Token:   valid,
+	}
+	helper.WriteToResponseBody(w, res)
+
+}
 
 func CreateMenu(w http.ResponseWriter, r *http.Request) {
 	request := models.Request{}

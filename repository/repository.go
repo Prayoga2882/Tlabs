@@ -2,14 +2,32 @@ package repository
 
 import (
 	"context"
+	"database/sql"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"golang.org/x/crypto/bcrypt"
 	"log"
 	"main/helper"
 	"main/middleware"
 	"main/models"
 )
+
+func InsertUser(user models.User) (int64, error) {
+	db := middleware.CreateConnection()
+	defer middleware.CloseConnection(db)
+
+	user.Password, _ = helper.GeneratehashPassword(user.Password)
+
+	sqlStatement := `INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id`
+	var id int64
+	err := db.QueryRow(sqlStatement, user.Username, user.Password).Scan(&id)
+	if err != nil {
+		return 0, err
+	}
+
+	return id, nil
+}
 
 func Insert(master models.Master) int64 {
 	db := middleware.CreateConnection()
@@ -316,4 +334,38 @@ func CheckMenu(id int64) (models.Master, error) {
 	} else {
 		return master, errors.New("menu is not found")
 	}
+}
+
+func CheckUser(username, password string) (string, error) {
+	db := middleware.CreateConnection()
+	defer middleware.CloseConnection(db)
+
+	sqlStatement := `SELECT password FROM users WHERE username=$1`
+	row := db.QueryRowContext(context.Background(), sqlStatement, username)
+
+	var hashedPassword string
+	err := row.Scan(&hashedPassword)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return "", errors.New("username is not found")
+		}
+		return "", err
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
+	if err != nil {
+		if errors.Is(err, bcrypt.ErrMismatchedHashAndPassword) {
+			return "", errors.New("password is incorrect")
+		}
+		return "", err
+	}
+
+	user := models.User{
+		Username: username,
+		Password: hashedPassword,
+	}
+
+	token, err := helper.GenerateJWT(user.Username)
+
+	return token, nil
 }
