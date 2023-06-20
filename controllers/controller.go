@@ -71,11 +71,7 @@ func CreateMenu(w http.ResponseWriter, r *http.Request) {
 
 func GetMenu(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	id, err := strconv.Atoi(params["id"])
-	if err != nil {
-		helper.Panic(err)
-	}
-
+	id, _ := strconv.Atoi(params["id"])
 	master, err := services.GetMenu(int64(id))
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json")
